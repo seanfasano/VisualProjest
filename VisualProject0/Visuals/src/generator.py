@@ -3,22 +3,24 @@ from diffusers import StableDiffusionPipeline
 import torch
 
 
-def load_diffusion_model(model_name="CompVis/stable-diffusion-v1-4", device=None):
-    """
-    Loads and returns the Stable Diffusion pipeline.
+import torch
 
-    Args:
-      model_name (str): The name of the pretrained model.
-      device (str): "cuda" or "cpu"; if None, it selects based on availability.
-    """
+def load_diffusion_model(model_name="CompVis/stable-diffusion-v1-4", device=None):
+    # Prioritize Apple MPS if available, then CUDA, then default to CPU.
     if device is None:
-        device = "cuda" if torch.cuda.is_available() else "cpu"
+        if torch.backends.mps.is_available():
+            device = "mps"
+        elif torch.cuda.is_available():
+            device = "cuda"
+        else:
+            device = "cpu"
     pipe = StableDiffusionPipeline.from_pretrained(
         model_name,
-        torch_dtype=torch.float16 if device == "cuda" else torch.float32
+        torch_dtype=torch.float16 if device in ["cuda", "mps"] else torch.float32
     )
     pipe = pipe.to(device)
     return pipe
+
 
 
 def generate_image(pipe, prompt, num_inference_steps=50, guidance_scale=7.5):
