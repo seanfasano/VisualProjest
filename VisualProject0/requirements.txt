@@ -3,3 +3,6 @@ librosa
 numpy
 opencv-python
 pillow
+diffusers
+transformers
+torch
