@@ -29,7 +29,7 @@ def main():
     try:
         while True:
             # Record audio for a fixed duration
-            print("Recording audio for 10 seconds...")
+            print("Recording audio for 5 seconds...")
             audio_data = record_audio(stream, duration_sec=5)
             print("Audio recorded. Extracting features...")
 
