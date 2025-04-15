@@ -3,8 +3,8 @@ import time
 import cv2
 import numpy as np
 from audio_capture import get_audio_stream, CHUNK, RATE
-from feature_extraction import extract_features
-from mapping2 import generate_prompt
+from feature_extraction2 import extract_features
+from mapping3 import generate_prompt
 from generator import load_diffusion_model, generate_image
 
 def record_audio_frames(stream, duration_sec):
